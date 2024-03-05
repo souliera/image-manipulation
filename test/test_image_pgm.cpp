@@ -118,3 +118,35 @@ TEST_CASE("Image PGM: set_max_value", "[ImagePGM][setters]") {
 	img.set_max_value(max);
 	CHECK(img.get_max_value() == max);
 }
+
+TEST_CASE("Image PGM: laod_image", "[ImagePGM][constructors][io]") {
+	SECTION("Binary image") {
+		ImagePGM img("rsc/lena.pgm");
+
+		CHECK(img.get_magic_number().compare("P5") == 0);
+		CHECK(img.get_width() == 512);
+		CHECK(img.get_height() == 512);
+		CHECK(img.get_max_value() == 255);
+
+		CHECK(img.get_pixel(211, 25) == 124);
+		CHECK(img.get_pixel(316, 434) == 176);
+		CHECK(img.get_pixel(283, 273) == 153);
+		CHECK(img.get_pixel(400, 184) == 48);
+		CHECK(img.get_pixel(127, 202) == 216);
+	}
+
+	SECTION("ASCII image") {
+		ImagePGM img("rsc/lena.ascii.pgm");
+
+		CHECK(img.get_magic_number().compare("P2") == 0);
+		CHECK(img.get_width() == 512);
+		CHECK(img.get_height() == 512);
+		CHECK(img.get_max_value() == 245);
+
+		CHECK(img.get_pixel(211, 25) == 124);
+		CHECK(img.get_pixel(316, 434) == 176);
+		CHECK(img.get_pixel(283, 273) == 153);
+		CHECK(img.get_pixel(400, 184) == 48);
+		CHECK(img.get_pixel(127, 202) == 216);
+	}
+}
