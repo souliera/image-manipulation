@@ -5,13 +5,14 @@
  * @brief File for the image class in PGM format.
  * @file image_pgm.hpp
  * @author Arnaud Soulier
- * @date 28 feb. 2024
- * @version 0.1.0
+ * @date 5 mar. 2024
+ * @version 0.2.0
  */
 
 #include <cstdint> /* (u)intX_t */
 #include <vector> /* vector class */
-#include <string> /* string class */
+#include <string> /* string class, to_string */
+#include <stdexcept> /* out_of_range, invalid_argument */
 
 /**
  * @class ImagePGM
@@ -34,6 +35,10 @@ class ImagePGM {
 		std::uint16_t get_pixel(const std::uint16_t &x, const std::uint16_t &y) const;
 		std::string get_magic_number() const;
 		std::uint16_t get_max_value() const;
+
+		void set_pixel(const std::uint16_t &x, const std::uint16_t &y, const std::uint16_t &value);
+		void set_magic_number(const std::string &magicNumber);
+		void set_max_value(const std::uint16_t &maxValue);
 };
 
 #endif
