@@ -53,7 +53,7 @@ TEST_CASE("Image PGM: size constructor", "[ImagePGM][constructors]") {
 TEST_CASE("Image PGM: set_pixel", "[ImagePGM][setters]") {
 	ImagePGM img(5, 5, 255);
 
-	REQUIRE(img.get_witdh() == 5);
+	REQUIRE(img.get_width() == 5);
 	REQUIRE(img.get_height() == 5);
 	REQUIRE(img.get_max_value() == 255);
 
@@ -83,25 +83,37 @@ TEST_CASE("Image PGM: set_pixel", "[ImagePGM][setters]") {
 		}
 	}
 
-	CHECK_THROWS_AS(img.get_pixel(5, 0), std::out_of_range);
-	CHECK_THROWS_AS(img.get_pixel(0, 5), std::out_of_range);
+	CHECK_THROWS_AS(img.set_pixel(5, 0, 0), std::out_of_range);
+	CHECK_THROWS_AS(img.set_pixel(0, 5, 0), std::out_of_range);
 }
 
 TEST_CASE("Image PGM: set_magic_number", "[ImagePGM][setters]") {
-	img.set_magic_number("P2");
-	CHECK(img.get_magic_number().compare("P2"));
-	img.set_magic_number("P5");
-	CHECK(img.get_magic_number().compare("P5"));
+	ImagePGM img(5, 5, 255);
 
-	CHECK_THROWS_AS(img.get_magic_number("P1"), std::invalid_argument);
-	CHECK_NOTHROW(img.get_magic_number("P2"));
-	CHECK_THROWS_AS(img.get_magic_number("P3"), std::invalid_argument);
-	CHECK_THROWS_AS(img.get_magic_number("P4"), std::invalid_argument);
-	CHECK_NOTHROW(img.get_magic_number("P5"));
-	CHECK_THROWS_AS(img.get_magic_number("P6"), std::invalid_argument);
+	REQUIRE(img.get_width() == 5);
+	REQUIRE(img.get_height() == 5);
+	REQUIRE(img.get_max_value() == 255);
+
+	img.set_magic_number("P2");
+	CHECK(img.get_magic_number().compare("P2") == 0);
+	img.set_magic_number("P5");
+	CHECK(img.get_magic_number().compare("P5") == 0);
+
+	CHECK_THROWS_AS(img.set_magic_number("P1"), std::invalid_argument);
+	CHECK_NOTHROW(img.set_magic_number("P2"));
+	CHECK_THROWS_AS(img.set_magic_number("P3"), std::invalid_argument);
+	CHECK_THROWS_AS(img.set_magic_number("P4"), std::invalid_argument);
+	CHECK_NOTHROW(img.set_magic_number("P5"));
+	CHECK_THROWS_AS(img.set_magic_number("P6"), std::invalid_argument);
 }
 
 TEST_CASE("Image PGM: set_max_value", "[ImagePGM][setters]") {
+	ImagePGM img(5, 5, 255);
+
+	REQUIRE(img.get_width() == 5);
+	REQUIRE(img.get_height() == 5);
+	REQUIRE(img.get_max_value() == 255);
+
 	std::uint16_t max = std::rand() % 255;
 	img.set_max_value(max);
 	CHECK(img.get_max_value() == max);

@@ -5,15 +5,15 @@ SRC = src/image_pgm.cpp
 INC = inc/image_pgm.hpp
 OBJ = $(subst src,obj,$(patsubst %.cpp,%.o,$(SRC)))
 
-.PHONY: all clean purge
+.PHONY: all clean purge test-pgm
 
-all: test.out
+all: a.out
 
-test.out: obj/test_image_pgm.o $(OBJ)
+a.out: obj/test_image_pgm.o $(OBJ)
 	$(CXX) -o $@ $^ 
 
-test-pgm: test.out
-	./test.out [ImagePGM]
+test-pgm: a.out
+	./a.out [ImagePGM]
 
 obj/%.o: src/%.cpp $(INC)
 	$(CXX) -o $@ -c $< $(CXXFLAGS)
