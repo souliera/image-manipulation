@@ -28,6 +28,12 @@ class ImagePGM {
 	public:
 		ImagePGM();
 		ImagePGM(const std::uint16_t &width, const std::uint16_t &height, const std::uint16_t &maxValue);
+
+		std::uint16_t get_width() const;
+		std::uint16_t get_height() const;
+		std::uint16_t get_pixel(const std::uint16_t &x, const std::uint16_t &y) const;
+		std::string get_magic_number() const;
+		std::uint16_t get_max_value() const;
 };
 
 #endif
