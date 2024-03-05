@@ -6,37 +6,37 @@ ImagePGM::ImagePGM(const std::uint16_t &width, const std::uint16_t &height, cons
 
 
 std::uint16_t ImagePGM::get_width() const {
-	return this->_width;
+	return _width;
 }
 
 std::uint16_t ImagePGM::get_height() const {
-	return this->_height;
+	return _height;
 }
 
 std::uint16_t ImagePGM::get_pixel(const std::uint16_t &x, const std::uint16_t &y) const {
-	return this->_pixels[y * _width + x];
+	return _pixels[y * _width + x];
 }
 
 std::string ImagePGM::get_magic_number() const {
-	return this->_magicNumber;
+	return _magicNumber;
 }
 
 std::uint16_t ImagePGM::get_max_value() const {
-	return this->_maxValue;
+	return _maxValue;
 }
 
 void ImagePGM::set_pixel(const std::uint16_t &x, const std::uint16_t &y, const std::uint16_t &value) {
-	if(x >= this->_width) {
-		throw std::out_of_range("method set_pixel(): x (" + std::to_string(x) + ") must be less of equal than the image width (" + std::to_string(this->_width) + ")");
+	if(x >= _width) {
+		throw std::out_of_range("method set_pixel(): x (" + std::to_string(x) + ") must be less of equal than the image width (" + std::to_string(_width) + ")");
 	}
-	if(y >= this->_height) {
-		throw std::out_of_range("method set_pixel(): y (" + std::to_string(y) + ") must be less of equal than the image height (" + std::to_string(this->_height) + ")");
+	if(y >= _height) {
+		throw std::out_of_range("method set_pixel(): y (" + std::to_string(y) + ") must be less of equal than the image height (" + std::to_string(_height) + ")");
 	}
-	if(value >= this->_maxValue) {
-		throw std::out_of_range("method set_pixel(): value (" + std::to_string(value) + ") must be less of equal than the image max value (" + std::to_string(this->_maxValue) + ")");
+	if(value >= _maxValue) {
+		throw std::out_of_range("method set_pixel(): value (" + std::to_string(value) + ") must be less of equal than the image max value (" + std::to_string(_maxValue) + ")");
 	}
 
-	this->_pixels[y * this->_width + x] = value;
+	_pixels[y * _width + x] = value;
 }
 
 void ImagePGM::set_magic_number(const std::string &magicNumber) {
@@ -44,9 +44,9 @@ void ImagePGM::set_magic_number(const std::string &magicNumber) {
 		throw std::invalid_argument("magic number must be P2 of P5 (get " + magicNumber + ")");
 	}
 
-	this->_magicNumber = magicNumber;
+	_magicNumber = magicNumber;
 }
 
 void ImagePGM::set_max_value(const std::uint16_t &maxValue) {
-	this->_maxValue = maxValue;
+	_maxValue = maxValue;
 }
