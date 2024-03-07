@@ -51,10 +51,10 @@ TEST_CASE("Image PGM: size constructor", "[ImagePGM][constructors]") {
 }
 
 TEST_CASE("Image PGM: set_pixel", "[ImagePGM][setters]") {
-	ImagePGM img(5, 5, 255);
+	ImagePGM img(10, 10, 255);
 
-	REQUIRE(img.get_width() == 5);
-	REQUIRE(img.get_height() == 5);
+	REQUIRE(img.get_width() == 10);
+	REQUIRE(img.get_height() == 10);
 	REQUIRE(img.get_max_value() == 255);
 
 	int i[5];
@@ -62,14 +62,14 @@ TEST_CASE("Image PGM: set_pixel", "[ImagePGM][setters]") {
 	int v[5];
 
 	for(int k = 0; k < 5; k++) {
-		i[k] = std::rand() % 5;
-		j[k] = std::rand() % 5;
+		i[k] = std::rand() % 10;
+		j[k] = std::rand() % 10;
 		v[k] = std::rand() % 255;
 		img.set_pixel(i[k], j[k], v[k]);
 	}
 
-	for(std::uint16_t y = 0; y < 5; y++) {
-		for(std::uint16_t x = 0; x < 5; x++) {
+	for(std::uint16_t y = 0; y < 10; y++) {
+		for(std::uint16_t x = 0; x < 10; x++) {
 			for(int k = 0; k < 5; k++) {
 				if(y == j[k] && x == i[k]) {
 					CHECK(img.get_pixel(x, y) == v[k]);
@@ -83,8 +83,8 @@ TEST_CASE("Image PGM: set_pixel", "[ImagePGM][setters]") {
 		}
 	}
 
-	CHECK_THROWS_AS(img.set_pixel(5, 0, 0), std::out_of_range);
-	CHECK_THROWS_AS(img.set_pixel(0, 5, 0), std::out_of_range);
+	CHECK_THROWS_AS(img.set_pixel(10, 0, 0), std::out_of_range);
+	CHECK_THROWS_AS(img.set_pixel(0, 10, 0), std::out_of_range);
 }
 
 TEST_CASE("Image PGM: set_magic_number", "[ImagePGM][setters]") {
@@ -143,10 +143,11 @@ TEST_CASE("Image PGM: laod_image", "[ImagePGM][constructors][io]") {
 		CHECK(img.get_height() == 512);
 		CHECK(img.get_max_value() == 245);
 
-		CHECK(img.get_pixel(211, 25) == 124);
-		CHECK(img.get_pixel(316, 434) == 176);
-		CHECK(img.get_pixel(283, 273) == 153);
-		CHECK(img.get_pixel(400, 184) == 48);
-		CHECK(img.get_pixel(127, 202) == 216);
+		CHECK(img.get_pixel(0, 0) == 162);
+		CHECK(img.get_pixel(185, 426) == 31);
+		CHECK(img.get_pixel(384, 157) == 205);
+		CHECK(img.get_pixel(73, 393) == 52);
+		CHECK(img.get_pixel(77, 474) == 55);
+		CHECK(img.get_pixel(412, 429) == 133);
 	}
 }
