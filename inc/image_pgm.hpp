@@ -5,8 +5,8 @@
  * @brief File for the image class in PGM format.
  * @file image_pgm.hpp
  * @author Arnaud Soulier
- * @date 7 mar. 2024
- * @version 0.3.0
+ * @date 10 mar. 2024
+ * @version 0.4.0
  */
 
 #include <cstdint> /* (u)intX_t */
@@ -15,6 +15,8 @@
 #include <stdexcept> /* out_of_range, invalid_argument */
 #include <fstream> /* ifstream class */
 #include <sstream> /* stringstream class */
+#include <cstring> /* memset */
+#include <cmath> /* ceil */
 
 /**
  * @class ImagePGM
@@ -44,9 +46,14 @@ class ImagePGM {
 		void set_max_value(const std::uint16_t &maxValue);
 
 	private:
-		void load_image(const std::string &filepaht);
+		void load_image(const std::string &filepath);
 		void load_binary(std::ifstream &input);
 		void load_ascii(std::ifstream &input);
+
+	public:
+		void save_image(const std::string&filepath) const;
+		void save_binary(std::ofstream &output) const;
+		void save_ascii(std::ofstream &output) const;
 };
 
 #endif

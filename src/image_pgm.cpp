@@ -1,7 +1,5 @@
 #include "image_pgm.hpp"
 
-#include <iostream>
-
 ImagePGM::ImagePGM() : ImagePGM(0, 0, 255) {}
 
 ImagePGM::ImagePGM(const std::uint16_t &width, const std::uint16_t &height, const std::uint16_t &maxValue) : _width(width), _height(height), _pixels(width * height, 0), _magicNumber("P5"), _maxValue(maxValue) {}
@@ -171,5 +169,80 @@ void ImagePGM::load_ascii(std::ifstream &input) {
 				sstr.clear();
 			}
 		}
+	}
+}
+
+void ImagePGM::save_image(const std::string &filepath) const {
+	std::ofstream output(filepath, std::ios::out | std::ios::binary);
+
+	output << _magicNumber << '\n';
+	output << _width << " " << _height << '\n';
+	output << _maxValue << std::endl;
+
+	if(_magicNumber.compare("P5") == 0) {
+		this->save_binary(output);
+	} else {
+		this->save_ascii(output);
+	}
+}
+
+void ImagePGM::save_binary(std::ofstream &output) const {
+	const std::uint16_t BUFF_SIZE = 512;
+	unsigned char buffer[BUFF_SIZE];
+	std::uint16_t k = 0;
+
+	if(_maxValue < 256) {
+		for(std::uint16_t y = 0; y < _height; y++) {
+			for(std::uint16_t x = 0; x < _width; x++) {
+				buffer[k] = _pixels[y * _width + x];
+				k++;
+				if(k == BUFF_SIZE) {
+					output.write(reinterpret_cast<char*>(buffer), BUFF_SIZE);
+					std::memset(buffer, 0, BUFF_SIZE);
+					k = 0;
+				}
+			}
+		}
+
+		if(k != 0) {
+			output.write(reinterpret_cast<char*>(buffer), k);
+		}
+	} else {
+		for(std::uint16_t y = 0; y < _height; y++) {
+			for(std::uint16_t x = 0; x < _width; x++) {
+				buffer[k] = _pixels[y * _width + x] >> 8;
+				buffer[k+1] = _pixels[y * _width + x] & 255;
+				k+=2;
+				if(k == BUFF_SIZE) {
+					output.write(reinterpret_cast<char*>(buffer), BUFF_SIZE);
+					std::memset(buffer, 0, BUFF_SIZE);
+					k = 0;
+				}
+			}
+		}
+
+		if(k != 0) {
+			output.write(reinterpret_cast<char*>(buffer), k);
+		}
+	}
+}
+
+void ImagePGM::save_ascii(std::ofstream &output) const {
+	std::uint16_t digit = std::to_string(_maxValue).size();
+	std::uint16_t limit = std::ceil(70 / (digit + 1));
+	std::uint16_t k = 0;
+
+	for(std::uint16_t y = 0; y < _height; y++) {
+		for(std::uint16_t x = 0; x < _width; x++) {
+			output << _pixels[y * _width + x] << " ";
+			k++;
+			if(k == limit) {
+				output << '\n';
+				k = 0;
+			}
+		}
+
+		output << '\n';
+		k = 0;
 	}
 }
