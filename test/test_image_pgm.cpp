@@ -151,3 +151,52 @@ TEST_CASE("Image PGM: laod_image", "[ImagePGM][constructors][io]") {
 		CHECK(img.get_pixel(412, 429) == 133);
 	}
 }
+
+TEST_CASE("Image PGM: resize", "[ImagePGM][size]") {
+	ImagePGM img(5, 5, 255);
+
+	for(std::uint16_t y = 0; y < 5; y++) {
+		for(std::uint16_t x = 0; x < 5; x++) {
+			img.set_pixel(x, y, y * 5 + x);
+		}
+	}
+
+	REQUIRE(img.get_width() == 5);
+	REQUIRE(img.get_height() == 5);
+	for(std::uint16_t y = 0; y < 5; y++) {
+		for(std::uint16_t x = 0; x < 5; x++) {
+			REQUIRE(img.get_pixel(x, y) == y * 5 + x);
+		}
+	}
+	REQUIRE(img.get_max_value() == 255);
+	
+	SECTION("Increase size") {
+		img.resize(7, 7);
+
+		CHECK(img.get_width() == 7);
+		CHECK(img.get_height() == 7);
+
+		for(std::uint16_t y = 0; y < 6; y++) {
+			for(std::uint16_t x = 0; x < 6; x++) {
+				if(y >= 5 || x >= 5) {
+					CHECK(img.get_pixel(x, y) == 0);
+				} else {
+					CHECK(img.get_pixel(x, y) ==  y * 5 + x);
+				}
+			}
+		}
+	}
+
+	SECTION("Decrease size") {
+		img.resize(3, 3);
+
+		CHECK(img.get_width() == 3);
+		CHECK(img.get_height() == 3);
+
+		for(std::uint16_t y = 0; y < 3; y++) {
+			for(std::uint16_t x = 0; x < 3; x++) {
+				CHECK(img.get_pixel(x, y) == y * 5 + x);
+			}
+		}
+	}
+}
