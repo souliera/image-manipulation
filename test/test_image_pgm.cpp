@@ -51,8 +51,12 @@ TEST_CASE("Image PGM: size constructor", "[ImagePGM][constructors]") {
 }
 
 TEST_CASE("Image PGM: set_pixel", "[ImagePGM][setters]") {
+	ImagePGM empty;
 	ImagePGM img(10, 10, 255);
 
+	REQUIRE(empty.get_width() == 0);
+	REQUIRE(empty.get_height() == 0);
+	REQUIRE(empty.get_max_value() == 255);
 	REQUIRE(img.get_width() == 10);
 	REQUIRE(img.get_height() == 10);
 	REQUIRE(img.get_max_value() == 255);
@@ -85,6 +89,7 @@ TEST_CASE("Image PGM: set_pixel", "[ImagePGM][setters]") {
 
 	CHECK_THROWS_AS(img.set_pixel(10, 0, 0), std::out_of_range);
 	CHECK_THROWS_AS(img.set_pixel(0, 10, 0), std::out_of_range);
+	CHECK_THROWS_AS(empty.set_pixel(1, 1, 0), std::out_of_range);
 }
 
 TEST_CASE("Image PGM: set_magic_number", "[ImagePGM][setters]") {

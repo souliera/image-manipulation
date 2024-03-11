@@ -29,6 +29,12 @@ std::uint16_t ImagePGM::get_max_value() const {
 }
 
 void ImagePGM::set_pixel(const std::uint16_t &x, const std::uint16_t &y, const std::uint16_t &value) {
+	if(_width == 0) {
+		throw std::out_of_range("set_pixel(): image width must be greater than 0");
+	}
+	if(_height == 0) {
+		throw std::out_of_range("set_pixel(): image height must be greater than 0");
+	}
 	if(x >= _width) {
 		throw std::out_of_range("set_pixel(): x (" + std::to_string(x) + ") must be less of equal than the image width (" + std::to_string(_width) + ")");
 	}
@@ -38,7 +44,6 @@ void ImagePGM::set_pixel(const std::uint16_t &x, const std::uint16_t &y, const s
 	if(value >= _maxValue) {
 		throw std::out_of_range("set_pixel(): value (" + std::to_string(value) + ") must be less of equal than the image max value (" + std::to_string(_maxValue) + ")");
 	}
-	//TODO check _width & _height == 0
 
 	_pixels[y * _width + x] = value;
 }
@@ -254,7 +259,8 @@ void ImagePGM::save_ascii(std::ofstream &output) const {
 void ImagePGM::resize(const std::uint16_t &width, const std::uint16_t &height) {
 	if(width == 0) {
 		throw std::invalid_argument("resize(): width must be greater than 0");
-	} else if(height == 0) {
+	}
+	if(height == 0) {
 		throw std::invalid_argument("resize(): height must be greater than 0");
 	}
 
