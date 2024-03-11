@@ -122,6 +122,8 @@ void ImagePGM::load_image(const std::string &filepath) {
 	} else {
 		this->load_ascii(input);
 	}
+
+	input.close();
 }
 
 void ImagePGM::load_binary(std::ifstream &input) {
@@ -184,6 +186,8 @@ void ImagePGM::save_image(const std::string &filepath) const {
 	} else {
 		this->save_ascii(output);
 	}
+
+	output.close();
 }
 
 void ImagePGM::save_binary(std::ofstream &output) const {
@@ -245,4 +249,24 @@ void ImagePGM::save_ascii(std::ofstream &output) const {
 		output << '\n';
 		k = 0;
 	}
+}
+
+void ImagePGM::resize(const std::uint16_t &width, const std::uint16_t &height) {
+	std::vector<std::uint16_t> new_pixels(width * height, 0);
+
+	std::uint16_t w = 0;
+	std::uint16_t h = 0;
+
+	_width < width ? w = _width : w = width;
+	_height < height ? h = _height : h = height;
+
+	for(std::uint16_t y = 0; y < h; y++) {
+		for(std::uint16_t x = 0; x < w; x++) {
+			new_pixels[y * width + x] = _pixels[y * _width + x];
+		}
+	}
+
+	_width = width;
+	_height = height;
+	_pixels = new_pixels;
 }

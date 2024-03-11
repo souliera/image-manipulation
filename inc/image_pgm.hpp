@@ -5,8 +5,8 @@
  * @brief File for the image class in PGM format.
  * @file image_pgm.hpp
  * @author Arnaud Soulier
- * @date 10 mar. 2024
- * @version 0.4.0
+ * @date 11 mar. 2024
+ * @version 0.5.0
  */
 
 #include <cstdint> /* (u)intX_t */
@@ -54,6 +54,8 @@ class ImagePGM {
 		void save_image(const std::string&filepath) const;
 		void save_binary(std::ofstream &output) const;
 		void save_ascii(std::ofstream &output) const;
+
+		void resize(const std::uint16_t &width, const std::uint16_t &height);
 };
 
 #endif
