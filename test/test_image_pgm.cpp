@@ -199,4 +199,7 @@ TEST_CASE("Image PGM: resize", "[ImagePGM][size]") {
 			}
 		}
 	}
+
+	CHECK_THROWS_AS(img.resize(0, 5), std::invalid_argument);
+	CHECK_THROWS_AS(img.resize(5, 0), std::invalid_argument);
 }
