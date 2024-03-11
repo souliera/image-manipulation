@@ -6,7 +6,7 @@
  * @file image_pgm.hpp
  * @author Arnaud Soulier
  * @date 11 mar. 2024
- * @version 0.5.0
+ * @version 0.5.1
  */
 
 #include <cstdint> /* (u)intX_t */

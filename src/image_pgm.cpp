@@ -30,13 +30,13 @@ std::uint16_t ImagePGM::get_max_value() const {
 
 void ImagePGM::set_pixel(const std::uint16_t &x, const std::uint16_t &y, const std::uint16_t &value) {
 	if(x >= _width) {
-		throw std::out_of_range("method set_pixel(): x (" + std::to_string(x) + ") must be less of equal than the image width (" + std::to_string(_width) + ")");
+		throw std::out_of_range("set_pixel(): x (" + std::to_string(x) + ") must be less of equal than the image width (" + std::to_string(_width) + ")");
 	}
 	if(y >= _height) {
-		throw std::out_of_range("method set_pixel(): y (" + std::to_string(y) + ") must be less of equal than the image height (" + std::to_string(_height) + ")");
+		throw std::out_of_range("set_pixel(): y (" + std::to_string(y) + ") must be less of equal than the image height (" + std::to_string(_height) + ")");
 	}
 	if(value >= _maxValue) {
-		throw std::out_of_range("method set_pixel(): value (" + std::to_string(value) + ") must be less of equal than the image max value (" + std::to_string(_maxValue) + ")");
+		throw std::out_of_range("set_pixel(): value (" + std::to_string(value) + ") must be less of equal than the image max value (" + std::to_string(_maxValue) + ")");
 	}
 	//TODO check _width & _height == 0
 
@@ -45,7 +45,7 @@ void ImagePGM::set_pixel(const std::uint16_t &x, const std::uint16_t &y, const s
 
 void ImagePGM::set_magic_number(const std::string &magicNumber) {
 	if(magicNumber.compare("P2") != 0 && magicNumber.compare("P5") != 0) {
-		throw std::invalid_argument("magic number must be P2 of P5 (get " + magicNumber + ")");
+		throw std::invalid_argument("set_magic_number(): magicNumber must be P2 of P5 (get " + magicNumber + ")");
 	}
 
 	_magicNumber = magicNumber;
@@ -252,6 +252,12 @@ void ImagePGM::save_ascii(std::ofstream &output) const {
 }
 
 void ImagePGM::resize(const std::uint16_t &width, const std::uint16_t &height) {
+	if(width == 0) {
+		throw std::invalid_argument("resize(): width must be greater than 0");
+	} else if(height == 0) {
+		throw std::invalid_argument("resize(): height must be greater than 0");
+	}
+
 	std::vector<std::uint16_t> new_pixels(width * height, 0);
 
 	std::uint16_t w = 0;
