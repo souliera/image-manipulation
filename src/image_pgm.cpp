@@ -1,5 +1,11 @@
 #include "image_pgm.hpp"
 
+/*
+ * ####################
+ * ### CONSTRUCTORS ###
+ * ####################
+ */
+
 ImagePGM::ImagePGM() : ImagePGM(0, 0, 255) {}
 
 ImagePGM::ImagePGM(const std::uint16_t &width, const std::uint16_t &height, const std::uint16_t &maxValue) : _width(width), _height(height), _pixels(width * height, 0), _magicNumber("P5"), _maxValue(maxValue) {}
@@ -7,6 +13,12 @@ ImagePGM::ImagePGM(const std::uint16_t &width, const std::uint16_t &height, cons
 ImagePGM::ImagePGM(const std::string &filepath) : _width(0), _height(0), _magicNumber(""), _maxValue(0) {
 	this->load_image(filepath);
 }
+
+/*
+ * #################
+ * ### ACCESSORS ###
+ * #################
+ */
 
 std::uint16_t ImagePGM::get_width() const {
 	return _width;
@@ -59,6 +71,12 @@ void ImagePGM::set_magic_number(const std::string &magicNumber) {
 void ImagePGM::set_max_value(const std::uint16_t &maxValue) {
 	_maxValue = maxValue;
 }
+
+/*
+ * ###############
+ * ### METHODS ###
+ * ###############
+ */
 
 void ImagePGM::load_image(const std::string &filepath) {
 	std::ifstream input(filepath, std::ios::in | std::ios::binary);
